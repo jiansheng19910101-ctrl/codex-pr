@@ -1,0 +1,280 @@
+/* ============================================================
+   上咨设计平台 · 全站 Lark Admin 风格皮肤
+   —— 主站和所有子页面都 link 这个文件（每个页面目录下有一份同名副本，
+      根目录这份是母版；改完母版跑一次 同步样式.py 就全站生效）。
+   —— 这份只管「颜色和控件」：把各页面原有的变量就地映射成 Lark 配色。
+      页面外壳（左导航 + 顶栏 + 说明抽屉）在 app-shell.css / app-shell.js。
+
+   配色取自飞书/Lark 管理后台：
+     主蓝 #3370FF   悬停 #245BDB   按下 #1456F0   浅蓝底 #EBF1FF
+     正文 #1F2329   次要 #646A73   辅助 #8F959E
+     描边 #DEE0E3   浅分隔 #EFF0F1  页面底 #F5F6F7  深蓝导航 #1F2C4D
+   ============================================================ */
+
+:root{
+  /* --- Lark 调色板（本皮肤内部用，lk- 前缀避免和各页面已有变量重名） --- */
+  --lk-brand:#3370FF;  --lk-brand-h:#245BDB; --lk-brand-a:#1456F0;
+  --lk-brand-l:#EBF1FF; --lk-brand-b:#B6CBFF;
+  --lk-nav:#1F2C4D;    --lk-nav-h:rgba(255,255,255,.09); --lk-nav-txt:#C6CEDE;
+  --lk-text:#1F2329;   --lk-text-2:#646A73; --lk-text-3:#8F959E;
+  --lk-line:#DEE0E3;   --lk-line-2:#EFF0F1;
+  --lk-bg:#F5F6F7;     --lk-panel:#FFFFFF;  --lk-fill:#F2F3F5; --lk-fill-h:#E8EAED;
+  --lk-green:#34C724;  --lk-orange:#FF8800; --lk-red:#F54A45;  --lk-yellow:#FFC60A;
+  --lk-r:6px; --lk-r-l:8px;
+  --lk-ring:0 0 0 3px rgba(51,112,255,.16);
+  --lk-sh-1:0 1px 3px rgba(31,35,41,.08);
+  --lk-sh-2:0 4px 14px rgba(31,35,41,.12), 0 1px 3px rgba(31,35,41,.08);
+
+  /* --- 各页面原有的 Claude 皮肤变量，就地映射成 Lark 配色 --- */
+  --bg:#F5F6F7;        --bg-soft:#EFF0F1;
+  --card:#FFFFFF;      --panel:#FFFFFF;
+  --ink:#1F2329;       --ink-soft:#646A73;
+  --text:#1F2329;      --text2:#646A73;     --muted:#8F959E;
+  --accent:#3370FF;    --accent-dark:#245BDB;
+  --orange:#3370FF;    --orange-dark:#245BDB;   /* 招投标页的主色名 */
+  --border:#DEE0E3;    --radius:8px;
+  --green:#2EA121;     --red:#F54A45;       --ok:#2EA121;
+  --warn:#A66300;      --warn-bg:#FFF8ED;   --code-bg:#F2F3F5;
+}
+
+/* ============ 字体与排版 ============ */
+html,body{
+  font-family:"PingFang SC","Segoe UI Variable Text","Segoe UI",-apple-system,BlinkMacSystemFont,
+              "Helvetica Neue","Microsoft YaHei",sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+/* 原皮肤的衬线标题（Source Serif / Georgia）统一改回无衬线——Lark 全站无衬线 */
+h1,h2,h3,h4,h5,
+.serif,.section-title,.subsection-title,.page-title,.card-title,.hero-card-title,.hero-title{
+  font-family:inherit;letter-spacing:0;
+}
+h1,h2,h3,h4{font-weight:500;color:var(--lk-text)}
+a{color:var(--lk-brand);text-decoration:none}
+a:hover{color:var(--lk-brand-h)}
+::selection{background:var(--lk-brand-l);color:var(--lk-brand-h)}
+
+/* ============ 按钮 ============ */
+button,.btn,input[type=button],input[type=submit]{
+  font-family:inherit;border-radius:var(--lk-r);cursor:pointer;
+  transition:background .12s,border-color .12s,color .12s;
+}
+/* 只给原来是"胶囊大按钮"的画桥改尺寸；其余页面（涉河/CCTV/土层等密集布局）只改圆角配色，
+   不动 padding 和字号，免得挤坏 100vh 的紧凑排版 */
+html[data-app="bridge"] .btn{padding:8px 16px;font-size:14px;font-weight:400;line-height:1.4}
+.btn-accent,.btn-primary,.primary,.submit-btn{
+  background:var(--lk-brand);border:1px solid var(--lk-brand);color:#fff;font-weight:500;
+}
+.btn-accent:hover,.btn-primary:hover,.primary:hover,.submit-btn:hover{
+  background:var(--lk-brand-h);border-color:var(--lk-brand-h);color:#fff;
+}
+.btn-ghost,.secondary,.btn-secondary{
+  background:#fff;border:1px solid var(--lk-line);color:var(--lk-text);
+}
+.btn-ghost:hover,.secondary:hover,.btn-secondary:hover{
+  background:var(--lk-fill);border-color:#C9CDD4;color:var(--lk-text);
+}
+.btn-success{background:var(--lk-green);border:1px solid var(--lk-green);color:#fff}
+.btn-warn{background:var(--lk-orange);border:1px solid var(--lk-orange);color:#fff}
+button:disabled,.btn:disabled{opacity:.5;cursor:not-allowed}
+
+/* ============ 表单控件 ============ */
+input[type=text],input[type=number],input[type=password],input[type=search],
+input[type=url],input[type=email],input[type=date],textarea,select{
+  font-family:inherit;color:var(--lk-text);background:#fff;
+  border:1px solid var(--lk-line);border-radius:var(--lk-r);
+  transition:border-color .12s,box-shadow .12s;
+}
+input[type=text]:hover,input[type=number]:hover,input[type=password]:hover,
+textarea:hover,select:hover{border-color:#C9CDD4}
+input[type=text]:focus,input[type=number]:focus,input[type=password]:focus,
+input[type=search]:focus,input[type=url]:focus,input[type=email]:focus,
+textarea:focus,select:focus{
+  outline:none;border-color:var(--lk-brand);box-shadow:var(--lk-ring);
+}
+input[type=checkbox],input[type=radio]{accent-color:var(--lk-brand);cursor:pointer}
+input[type=range]{accent-color:var(--lk-brand)}
+::placeholder{color:#BBBFC4}
+label{color:var(--lk-text-2)}
+
+/* ============ 表格 ============ */
+table{border-color:var(--lk-line)}
+th{background:var(--lk-bg);color:var(--lk-text-2);font-weight:500}
+td,th{border-color:var(--lk-line)}
+tr:hover td{background:#FAFBFC}
+
+/* ============ 代码 / 日志 ============ */
+code,kbd,samp{background:var(--lk-fill);border-radius:4px;color:#D4380D}
+pre{background:var(--lk-fill);border-radius:var(--lk-r-l);color:var(--lk-text)}
+
+/* ============ 滚动条 ============ */
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#DEE0E3;border-radius:6px;border:3px solid transparent;background-clip:content-box}
+::-webkit-scrollbar-thumb:hover{background:#C9CDD4;background-clip:content-box}
+
+/* ============ 通用容器 ============ */
+.card,.panel,.section-frame,.result-box,.grid-card{border-radius:var(--lk-r-l)}
+
+/* ================================================================
+   页面骨架公共组件（全站统一版式，规则见 README「页面骨架规范」）
+   —— 目标：什么功能在什么位置全站一个样，用户学一次到处能用。
+      新做工具页直接复制 _模板工具页/index.html 改。
+   ================================================================ */
+
+/* 步骤徽章：主路径步骤卡标题统一 <span class="step-badge">1</span>，
+   编号一律 1/2/3 单数字。样式即「CAD批量打印」那版 30px 蓝底圆角方徽章 */
+.step-badge{
+  display:inline-flex;align-items:center;justify-content:center;flex:none;
+  width:30px;height:30px;font-size:12px;font-weight:700;
+  background:#edf3ff;color:#3370ff;border-radius:9px;
+}
+
+/* 熟练快捷卡（"一键出图"那种）：固定放步骤1卡之后、主流程卡之前 */
+.card.quick{border-color:var(--lk-brand)}
+.quick-badge{font-size:13px;line-height:1}
+.quick-body{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.quick-body .hint{flex:1;min-width:220px}
+
+/* 高级选项折叠 details.adv：默认收起。
+   哪一步的选项就收进哪一步的卡；跨步骤的全局参数收进主流程之后的独立卡 */
+details.adv{border:1px solid var(--lk-line);border-radius:var(--lk-r-l);background:#fff}
+details.adv>summary{cursor:pointer;list-style:none;user-select:none;
+  color:var(--lk-text-2);font-size:14px;font-weight:500}
+details.adv>summary::-webkit-details-marker{display:none}
+details.adv>summary::before{content:"▸";margin-right:6px;color:var(--lk-text-3);font-size:12px}
+details.adv[open]>summary::before{content:"▾"}
+
+/* ================================================================
+   以下按页面（<html data-app="...">）做针对性调整
+   ================================================================ */
+
+/* ---------- 主站首页 ----------
+   外壳（左导航 + 顶栏）已统一由 app-shell.css / app-shell.js 提供，
+   页面自己的板块、磁贴、下载区样式写在 00 主站服务/index.html 里，
+   这里不再重复覆盖一层。 */
+html[data-app="hub"] body{font-size:14px}
+
+
+/* ---------- 涉河论证 Agent ----------
+   原来这里有一大段针对 v9（Tailwind 蓝灰配色，.upload-card / .dropzone / .config-status
+   这些类名）的覆盖。v9 已随 04_code/v9_260722/ 一起删掉，v10 是另一套类名，那些规则
+   全部落空，而且 html[data-app="agent"] h1 的权重还会压掉 v10 报告预览里的 .doc h1。
+   v10 自己的 CSS 变量已经直接用 Lark 配色写，这里不需要再覆盖一层。 */
+
+/* ---------- 提示词平台 / 评分器 / 多模态 ---------- */
+html[data-app="prompt"] h1,html[data-app="scorer"] h1,html[data-app="multimodal"] h1{
+  font-size:20px;font-weight:500;
+}
+html[data-app="prompt"] .field-input,html[data-app="scorer"] .field-input{border-radius:var(--lk-r)}
+html[data-app="prompt"] .mode-card,html[data-app="scorer"] .mode-card{border-radius:var(--lk-r-l)}
+/* 页签选中是切换查看的辅助态，不是必点按钮：中性灰底，蓝色留给主操作 */
+html[data-app="multimodal"] .tab-btn.active{background:var(--lk-fill);color:var(--lk-text);box-shadow:inset 0 0 0 1px #C9CDD4}
+
+/* ---------- 兜底：多套一层 html[data-app] 提权，压掉各页面 .header h1 这类单类名规则 ---------- */
+html[data-app] body{color:var(--lk-text)}
+html[data-app] h1,html[data-app] h2,html[data-app] h3,html[data-app] h4,
+html[data-app] .serif,html[data-app] .header h1,html[data-app] .card h1,
+html[data-app] .section-title,html[data-app] .subsection-title,html[data-app] .page-title{
+  font-family:inherit;
+}
+
+/* ---------- 土层柱状图 / 画桥 / 招投标 / CCTV ---------- */
+html[data-app="soil"] h1,html[data-app="soil"] h2,html[data-app="soil"] h3{font-weight:500}
+html[data-app="bridge"] .page-title{font-size:20px;font-weight:500}
+html[data-app="bidding"] .btn{border-radius:var(--lk-r)}
+html[data-app="cctv"] .tag{background:var(--lk-brand-l);color:var(--lk-brand-h);border-radius:4px}
+
+/* ---------- 海塘爬高计算（2026-10 新增，原名破堤开缺计算，纯静态计算页） ----------
+   原页面自带一套深蓝变量（--blue/--blue2/--hd），这里就地映射成 Lark 配色；
+   卡片、页签条跟着换皮，表格/警示语义色（red/green/warnbox）保持原样。 */
+html[data-app="dikebreak"]{
+  --blue:var(--lk-brand); --blue2:var(--lk-brand-h);
+  --bg:var(--lk-bg); --line:var(--lk-line); --hd:var(--lk-brand-l);
+  --red:var(--lk-red); --green:var(--lk-green); --warn:#B26B00;
+}
+html[data-app="dikebreak"] body{color:var(--lk-text)}
+html[data-app="dikebreak"] .card{border-radius:var(--lk-r-l);box-shadow:var(--lk-sh-1)}
+html[data-app="dikebreak"] .card>h2{color:var(--lk-text);font-weight:500}
+html[data-app="dikebreak"] nav{background:var(--lk-panel);border-bottom:1px solid var(--lk-line);box-shadow:none}
+html[data-app="dikebreak"] nav button{color:var(--lk-text-2);border-radius:0}
+html[data-app="dikebreak"] nav button.on{color:var(--lk-brand);background:var(--lk-brand-l)}
+html[data-app="dikebreak"] .fld label{color:var(--lk-text-2)}
+html[data-app="dikebreak"] .fld input,.fld select{border-radius:var(--lk-r)}
+html[data-app="dikebreak"] .fld input:focus,.fld select:focus,
+html[data-app="dikebreak"] td input:focus{outline:none;border-color:var(--lk-brand);box-shadow:var(--lk-ring)}
+html[data-app="dikebreak"] td input{border-color:var(--lk-line-2);border-radius:4px}
+html[data-app="dikebreak"] .btn{border-radius:var(--lk-r);font-weight:400}
+html[data-app="dikebreak"] .btn.gray{background:var(--lk-fill);color:var(--lk-text)}
+html[data-app="dikebreak"] .btn.gray:hover{background:var(--lk-fill-h);color:var(--lk-text)}
+html[data-app="dikebreak"] .tag{background:var(--lk-brand-l);border-color:var(--lk-brand-b);color:var(--lk-brand)}
+html[data-app="dikebreak"] h3.sec{color:var(--lk-text);border-left-color:var(--lk-brand)}
+html[data-app="dikebreak"] .formula{border-left-color:var(--lk-brand)}
+html[data-app="dikebreak"] .note{color:var(--lk-text-3)}
+html[data-app="dikebreak"] summary{color:var(--lk-brand)}
+html[data-app="dikebreak"] footer{color:var(--lk-text-3)}
+
+/* ============================================================
+   全站主题：蓝 / 白 / 粉（蓝 = 上面 :root 那套出厂值，一行不动）
+   跟首页封面上那个「主题」选择是同一份（app-shell.js 把它套到
+   <html data-hub-theme="…"> 上）。这里换的是**子页面正文**用的那批变量
+   （--accent / --card / --border / --bg …），左导航和顶栏那批 --lk-* 在
+   app-shell.css 里换 —— 两边一起，一个子网页从上到下才是同一个主题。
+   各页面自己的 CSS 里凡是用了这些变量的，换主题自动跟着走；
+   个别页面把颜色写死的，仍是原来的颜色（不强行刷，免得刷坏版面）。
+   ============================================================ */
+
+/* ---------- 白色：干净的冷灰白，点睛色是压暗一档的石板蓝 ---------- */
+html[data-hub-theme="white"]{
+  --bg:#F5F8FC; --bg-soft:#EDF1F6;
+  --card:#FFFFFF; --panel:#FFFFFF;
+  --ink:#27313F;  --ink-soft:#5A6779;
+  --text:#27313F; --text2:#5A6779; --muted:#8A94A3;
+  --accent:#4574AE; --accent-dark:#376094;
+  --orange:#4574AE; --orange-dark:#376094;   /* 招投标页管主色叫 orange */
+  --border:#DCE2EA;
+  --code-bg:#EEF2F7;
+}
+
+/* ---------- 粉色：淡藕粉底 + 玫瑰木点睛（第一版偏艳，整体调淡一档） ---------- */
+html[data-hub-theme="pink"]{
+  --bg:#FDF8FA; --bg-soft:#FBF0F5;
+  --card:#FFFFFF; --panel:#FFFFFF;
+  --ink:#5A4552;  --ink-soft:#7E6473;
+  --text:#5A4552; --text2:#7E6473; --muted:#96798A;
+  --accent:#B0557C; --accent-dark:#934263;
+  --orange:#B0557C; --orange-dark:#934263;
+  --border:#F1E4EA;
+  --code-bg:#FCF2F6;
+}
+
+/* 正文里几个写死了深蓝的角落，跟着主题换一遍（只换颜色，不动布局） */
+html[data-hub-theme="white"] .step-badge,
+html[data-hub-theme="pink"] .step-badge{
+  background:var(--lk-brand-l);color:var(--lk-brand-h);
+}
+html[data-hub-theme="white"] .hint-hover,
+html[data-hub-theme="pink"] .hint-hover{
+  background:var(--lk-brand-l);border-color:var(--lk-brand-b);color:var(--lk-brand-h);
+}
+
+/* ---------- 金色：暖白纸底 + 土黄金点睛（黑金那套，导航是深炭棕） ----------
+   外壳那批 --lk-* 变量在 app-shell.css 里另有一块同名的，两边一起换。 */
+html[data-hub-theme="gold"]{
+  --bg:#F8F4EA; --bg-soft:#F1EAD9;
+  --card:#FFFDF8; --panel:#FFFDF8;
+  --ink:#2B241A;  --ink-soft:#6B5F49;
+  --text:#2B241A; --text2:#6B5F49; --muted:#968A70;
+  --accent:#8F6A20; --accent-dark:#7A5A19;
+  --orange:#8F6A20; --orange-dark:#7A5A19;   /* 招投标页管主色叫 orange */
+  --border:#E4DBC6;
+  --code-bg:#F3EDDD;
+  --lk-ring:0 0 0 3px rgba(143,106,32,.18);
+}
+
+/* 同白 / 粉：写死深蓝的角落跟着换 */
+html[data-hub-theme="gold"] .step-badge{
+  background:var(--lk-brand-l);color:var(--lk-brand-h);
+}
+html[data-hub-theme="gold"] .hint-hover{
+  background:var(--lk-brand-l);border-color:var(--lk-brand-b);color:var(--lk-brand-h);
+}

@@ -1,0 +1,97 @@
+diff --git a/app-shell.js b/app-shell.js
+--- a/app-shell.js
++++ b/app-shell.js
+@@ -186,6 +186,7 @@
+       { key: 'cadgray', text: 'CAD图元改灰', ic: 'grey',   href: '/cadgray/index.html' },
+       { key: 'img2dxf', text: '图片/PDF转DXF', title: '图片/PDF转DXF · 自动转换并下载', ic: 'image', href: '/img2dxf/index.html' },
+       { key: 'bridge',   text: '画桥',           ic: 'bridge', href: '/bridge/index.html' },
++      { key: 'wall', text: '画护岸', title: '画护岸 · 参数断面与三维模型 Demo', ic: 'wall', href: '/wall/index.html' },
+       { key: 'cadbrush', text: 'CAD模板格式刷', draft: true, ic: 'score', href: '/cadbrush/' },
+       { key: 'elev',    text: '高程云图生成器', draft: true, ic: 'hill', href: '/01 AI Agent应用/06 高程云图/index.html' },
+       { key: 'revetcolor', text: '护岸彩图', draft: true, ic: 'image', href: '/revetcolor/' },
+diff --git a/app-shell.css b/app-shell.css
+--- a/app-shell.css
++++ b/app-shell.css
+@@ -182,6 +182,7 @@
+ .lk-nav-ic[data-ic="image"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='4' y='5' width='16' height='14' rx='2'/%3E%3Cpath d='M4 16l4.5-4.5 3 3L15 11l5 5'/%3E%3C/svg%3E")}
+ .lk-nav-ic[data-ic="layer"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 4l8 4-8 4-8-4z'/%3E%3Cpath d='M4 13l8 4 8-4'/%3E%3C/svg%3E")}
+ .lk-nav-ic[data-ic="bridge"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 10h18M5 10v9M19 10v9'/%3E%3Cpath d='M3 16c3.5 0 5-4 9-4s5.5 4 9 4'/%3E%3C/svg%3E")}
++.lk-nav-ic[data-ic="wall"]{background-image:url("data:image/svg+xml,%3Csvg%20xmlns='http%3A//www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%20fill='none'%20stroke='%23fff'%20stroke-width='2'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Cpath%20d='M3%2015c2%200%202%202%204%202s2-2%204-2M3%2019c2%200%202%202%204%202s2-2%204-2'/%3E%3Cpath%20d='M12%2020h9v-3h-5l-2-13h-3v16zM16%209h5M17%2013h4'/%3E%3C/svg%3E")}
+ .lk-nav-ic[data-ic="wave"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 7c3 0 3 3 6 3s3-3 6-3 3 3 6 3'/%3E%3Cpath d='M3 14c3 0 3 3 6 3s3-3 6-3 3 3 6 3'/%3E%3C/svg%3E")}
+ .lk-nav-ic[data-ic="hill"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 19l6-9 4 5 3-4 5 8z'/%3E%3C/svg%3E")}
+ .lk-nav-ic[data-ic="plugin"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3v10'/%3E%3Cpath d='M8 9l4 4 4-4'/%3E%3Cpath d='M5 17v3h14v-3'/%3E%3C/svg%3E")}
+@@ -902,6 +903,7 @@
+ html[data-hub-theme="white"] .lk-nav-ic[data-ic="image"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235B708C' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='4' y='5' width='16' height='14' rx='2'/%3E%3Cpath d='M4 16l4.5-4.5 3 3L15 11l5 5'/%3E%3C/svg%3E")}
+ html[data-hub-theme="white"] .lk-nav-ic[data-ic="layer"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235B708C' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 4l8 4-8 4-8-4z'/%3E%3Cpath d='M4 13l8 4 8-4'/%3E%3C/svg%3E")}
+ html[data-hub-theme="white"] .lk-nav-ic[data-ic="bridge"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235B708C' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 10h18M5 10v9M19 10v9'/%3E%3Cpath d='M3 16c3.5 0 5-4 9-4s5.5 4 9 4'/%3E%3C/svg%3E")}
++html[data-hub-theme="white"] .lk-nav-ic[data-ic="wall"]{background-image:url("data:image/svg+xml,%3Csvg%20xmlns='http%3A//www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%20fill='none'%20stroke='%235B708C'%20stroke-width='2'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Cpath%20d='M3%2015c2%200%202%202%204%202s2-2%204-2M3%2019c2%200%202%202%204%202s2-2%204-2'/%3E%3Cpath%20d='M12%2020h9v-3h-5l-2-13h-3v16zM16%209h5M17%2013h4'/%3E%3C/svg%3E")}
+ html[data-hub-theme="white"] .lk-nav-ic[data-ic="wave"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235B708C' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 7c3 0 3 3 6 3s3-3 6-3 3 3 6 3'/%3E%3Cpath d='M3 14c3 0 3 3 6 3s3-3 6-3 3 3 6 3'/%3E%3C/svg%3E")}
+ html[data-hub-theme="white"] .lk-nav-ic[data-ic="hill"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235B708C' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 19l6-9 4 5 3-4 5 8z'/%3E%3C/svg%3E")}
+ html[data-hub-theme="white"] .lk-nav-ic[data-ic="plugin"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235B708C' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3v10'/%3E%3Cpath d='M8 9l4 4 4-4'/%3E%3Cpath d='M5 17v3h14v-3'/%3E%3C/svg%3E")}
+@@ -926,6 +928,7 @@
+ html[data-hub-theme="pink"] .lk-nav-ic[data-ic="image"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238C5E74' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='4' y='5' width='16' height='14' rx='2'/%3E%3Cpath d='M4 16l4.5-4.5 3 3L15 11l5 5'/%3E%3C/svg%3E")}
+ html[data-hub-theme="pink"] .lk-nav-ic[data-ic="layer"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238C5E74' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 4l8 4-8 4-8-4z'/%3E%3Cpath d='M4 13l8 4 8-4'/%3E%3C/svg%3E")}
+ html[data-hub-theme="pink"] .lk-nav-ic[data-ic="bridge"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238C5E74' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 10h18M5 10v9M19 10v9'/%3E%3Cpath d='M3 16c3.5 0 5-4 9-4s5.5 4 9 4'/%3E%3C/svg%3E")}
++html[data-hub-theme="pink"] .lk-nav-ic[data-ic="wall"]{background-image:url("data:image/svg+xml,%3Csvg%20xmlns='http%3A//www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%20fill='none'%20stroke='%238C5E74'%20stroke-width='2'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Cpath%20d='M3%2015c2%200%202%202%204%202s2-2%204-2M3%2019c2%200%202%202%204%202s2-2%204-2'/%3E%3Cpath%20d='M12%2020h9v-3h-5l-2-13h-3v16zM16%209h5M17%2013h4'/%3E%3C/svg%3E")}
+ html[data-hub-theme="pink"] .lk-nav-ic[data-ic="wave"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238C5E74' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 7c3 0 3 3 6 3s3-3 6-3 3 3 6 3'/%3E%3Cpath d='M3 14c3 0 3 3 6 3s3-3 6-3 3 3 6 3'/%3E%3C/svg%3E")}
+ html[data-hub-theme="pink"] .lk-nav-ic[data-ic="hill"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238C5E74' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 19l6-9 4 5 3-4 5 8z'/%3E%3C/svg%3E")}
+ html[data-hub-theme="pink"] .lk-nav-ic[data-ic="plugin"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238C5E74' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3v10'/%3E%3Cpath d='M8 9l4 4 4-4'/%3E%3Cpath d='M5 17v3h14v-3'/%3E%3C/svg%3E")}
+diff --git a/00 主站服务/index.html b/00 主站服务/index.html
+--- a/00 主站服务/index.html
++++ b/00 主站服务/index.html
+@@ -634,6 +634,11 @@
+         <span class="tile-name">画桥</span>
+         <span class="tile-go">›</span>
+       </a>
++      <a class="tile" id="link-wall" href="#">
++        <span class="tile-ic"><img class="tile-ic-logo" src="icon/wall.svg" alt=""></span>
++        <span class="tile-name">画护岸</span>
++        <span class="tile-go">›</span>
++      </a>
+       <!-- 2026-10-07 自「开发中」块提上来，和左导航一起挪的 -->
+       <a class="tile" id="link-20" hidden href="#">
+         <span class="tile-ic">🔍</span>
+@@ -975,6 +980,7 @@
+     // 快捷方式「涉河论证Agent.lnk」）。首页不再放入口，但服务和 /agent 代理都没动，
+     // http://<主机>:8000/agent/index.html 这个老链接不会断。
+     'link-bridge': '/bridge/index.html',
++    'link-wall': '/wall/index.html',
+     'link-soil': '/soil/index.html',
+     'link-cadplot': '/cadplot/index.html',
+     'link-word2pdf': '/word2pdf/index.html',
+diff --git a/00 主站服务/server.py b/00 主站服务/server.py
+--- a/00 主站服务/server.py
++++ b/00 主站服务/server.py
+@@ -67,6 +67,10 @@
+         # 上海地形图为纯静态地图，短址复用主站托管，不另启端口。
+         if parts[0] == "terrain":
+             root = os.path.join(SITE_ROOT, "01 AI Agent应用", "30 上海地形图")
++            full = os.path.join(root, *parts[1:])
++        elif parts[0] == "wall":
++            # 画护岸为浏览器内完成计算、预览与导出的静态工具，复用主站服务。
++            root = os.path.join(SITE_ROOT, "02 制图工具", "10 画护岸")
+             full = os.path.join(root, *parts[1:])
+         else:
+             root = SITE_ROOT if parts[0] in EXTERNAL_DIRS else BASE
+diff --git a/同步样式.py b/同步样式.py
+--- a/同步样式.py
++++ b/同步样式.py
+@@ -92,6 +92,7 @@
+     # 青浦区水利规划（8035）也已随涉河小站迁往 13 涉河论证html。
+     (os.path.join("03 工程设计工具", "02 土层柱状图cad"), THEME + SHELL),
+     (os.path.join("03 工程设计工具", "01 画桥"), THEME + SHELL),
++    (os.path.join("02 制图工具", "10 画护岸"), THEME + SHELL),
+     (os.path.join("03 工程设计工具", "03 cad自动打印pdf"), THEME + SHELL),
+     (os.path.join("03 工程设计工具", "10 word转pdf"), THEME + SHELL),
+     (os.path.join("03 工程设计工具", "06 图片转dxf"), THEME + SHELL),
+diff --git a/_nav_pages.tsv b/_nav_pages.tsv
+--- a/_nav_pages.tsv
++++ b/_nav_pages.tsv
+@@ -7,6 +7,7 @@
+ 在线工具	cctv	CCTV检测报告提取	/cctv/	
+ 在线工具	cadgray	CAD图元改灰	/cadgray/index.html	
+ 在线工具	bridge	画桥	/bridge/index.html	
++制图工具	wall	画护岸	/wall/index.html	
+ 工程计算	agri	农水计算	/agri/index.html	
+ 工程计算	dikebreak	海塘爬高计算	/03 工程设计工具/11 联通破堤开缺/index.html	
+ 工程计算	boreholeExtract	桩基承载力计算	/borehole/index.html	
