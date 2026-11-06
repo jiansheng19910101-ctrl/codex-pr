@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>河道挡墙 · 参数化设计</title>
+<style>
+:root{font-family:Inter,"Microsoft YaHei",sans-serif;color:#20304b;background:#eff3f8;font-size:14px}*{box-sizing:border-box}body{margin:0}header{background:#122944;color:white;padding:22px 32px;display:flex;justify-content:space-between;align-items:center}h1{font-size:22px;margin:0 0 7px}header p{margin:0;color:#afc2d9;font-size:12px}.badge{border:1px solid #53677e;padding:7px 12px;border-radius:20px;font-size:12px}.layout{display:grid;grid-template-columns:390px 1fr;gap:22px;padding:24px;max-width:1800px;margin:auto}.panel{background:white;border:1px solid #dce4ee;border-radius:14px;overflow:hidden;box-shadow:0 4px 20px #20304b05}.formhead{padding:22px;border-bottom:1px solid #e7edf4}.tabs{display:flex;background:#edf2f8;padding:4px;border-radius:9px;margin-top:18px}button{cursor:pointer;font:inherit;border:0;border-radius:7px;padding:10px 15px;background:#eaf0f7;color:#314562}button:hover{filter:brightness(.97)}.tabs button{width:50%;background:transparent}.tabs .active{background:white;color:#1762ca;box-shadow:0 2px 8px #152c4920;font-weight:bold}select{width:100%;padding:11px;border:1px solid #ccd7e5;border-radius:7px;background:white;color:#20304b;font:inherit}.fields{padding:0 22px 20px;max-height:calc(100vh - 360px);min-height:340px;overflow:auto}.group{font-weight:600;font-size:13px;margin:24px 0 14px;color:#1762ca}.field{display:flex;align-items:center;justify-content:space-between;margin:11px 0;gap:8px}.field label{font-size:13px}.control{display:flex;align-items:center;border:1px solid #d3deea;border-radius:7px;width:125px;overflow:hidden}.control input{font:inherit;width:92px;padding:9px 8px;border:0;outline:none;background:#fcfdff;color:#20304b}.control:focus-within{border-color:#2875db;box-shadow:0 0 0 2px #2875db18}.unit{font-size:11px;color:#8b99aa}.foot{padding:18px 22px;border-top:1px solid #e7edf4;display:flex;gap:8px}.primary{background:#1762ca;color:white}.foot button{flex:1}.main{min-width:0}.toolbar{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid #e7edf4;gap:12px;flex-wrap:wrap}.toolbar strong{font-size:16px}.muted{color:#8593a6;font-size:12px}.tag{color:#187c68;background:#e9f7f2;padding:5px 9px;border-radius:5px;font-size:12px}.canvas{padding:12px;background:#fff}.canvas svg{width:100%;height:auto;min-height:340px;display:block}.legend{padding:14px 22px;border-top:1px solid #edf1f6;display:flex;gap:20px;font-size:12px;color:#697d94;flex-wrap:wrap}.legend span:before{content:'';display:inline-block;width:18px;height:3px;background:var(--c);margin-right:7px;vertical-align:middle}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px}.stat{padding:18px;background:white;border:1px solid #dce4ee;border-radius:10px}.stat small{color:#7a8ba0}.stat b{display:block;font-size:22px;margin-top:8px;font-weight:600}.notes{padding:18px 22px;margin-top:18px;line-height:1.9;font-size:12px;color:#687c94}.notes summary{cursor:pointer;color:#344e6c;font-weight:bold}.notes p{margin:8px 0}.error{display:none;margin:14px 22px;padding:12px;background:#fff0ef;color:#b33731;border-radius:7px;font-size:13px;line-height:1.7}.status{font-size:12px;color:#1762ca;margin-top:12px;min-height:18px}.notice{font-size:12px;color:#75879b;line-height:1.7;margin:13px 0 0}footer{padding:0 24px 20px;text-align:center;color:#8797a9;font-size:12px}@media(max-width:1000px){.layout{grid-template-columns:330px 1fr;padding:14px;gap:14px}.stats{grid-template-columns:repeat(2,1fr)}}@media(max-width:760px){.layout{display:block}.main{margin-top:18px}.fields{max-height:none;min-height:0}.badge{display:none}header{padding:20px}.canvas{overflow:auto}.canvas svg{min-width:650px}.stats{grid-template-columns:repeat(2,1fr)}}
+
+.advanced{border-top:1px solid #e1e8f1;padding:15px 0 4px}.advanced summary{cursor:pointer;font-weight:600;color:#345371;font-size:13px}.advanced .notice{font-size:11px}.advanced select{width:150px;padding:7px;font-size:12px}.advanced input[type=text]{width:145px;padding:8px;border:1px solid #d3deea;border-radius:6px;font:inherit;font-size:12px}.advanced .control{width:118px}.advanced .control input{width:83px}.subcard{background:#f6f8fc;border-radius:8px;padding:10px;margin:12px 0}.smallbtn{font-size:12px;padding:6px 9px}.paramtools{display:flex;gap:8px;margin-bottom:12px}.paramtools button{font-size:12px;flex:1;padding:9px}.advanced input:invalid{outline:1px solid #c5564b}
+
+#drawing{touch-action:none;user-select:none;-webkit-user-select:none}.drag-handle{fill:#fff;stroke:#1762ca;stroke-width:2.5;filter:drop-shadow(0 1px 3px #173b5e25)}.drag-target:hover .drag-handle,.drag-target:focus .drag-handle{fill:#d8eaff;stroke:#084da5}.drag-target{outline:none}.drag-label{fill:#1762ca;font-size:12px;paint-order:stroke;stroke:white;stroke-width:4px;stroke-linejoin:round}.drag-dim{stroke:#1762ca;stroke-width:1.5;fill:none}.drag-hit{stroke:transparent;stroke-width:20;fill:none}.drag-help{padding:11px 22px;color:#41678d;background:#f0f6ff;font-size:12px;line-height:1.8}.drag-active .drag-handle{fill:#c4dfff}
+</style></head><body>
+<header><div><h1>河道挡墙参数化设计</h1><p>断面几何 · 双模式输入 · CAD 图纸导出</p></div><span class="badge">离线运行 / 无需安装</span></header>
+<div class="layout"><aside class="panel"><div class="formhead"><div class="muted" style="margin-bottom:9px">挡墙类型</div><select id="wallType"><option value="rc">钢筋混凝土挡墙 · 悬臂式</option><option value="stone">浆砌块石挡墙 · 重力式</option></select><div class="tabs"><button id="simpleTab" class="active">简版输入</button><button id="detailTab">详版输入</button></div><p class="notice" id="modeNote"></p></div><div id="fields" class="fields"></div><div class="foot"><button id="reset">恢复示例</button><button id="export" class="primary">导出 DXF</button></div></aside>
+<main class="main"><section class="panel"><div class="toolbar"><div><strong>横断面实时预览</strong><div class="muted" style="margin-top:6px" id="subtitle"></div></div><span class="tag" id="valid">参数有效 · 已更新</span></div><div class="drag-help">拖动蓝色节点或蓝色尺寸线：↕ 改墙高，↔ 改底板宽。支持鼠标与触屏；步长 0.05 m，按 Shift 精调至 0.01 m。选中节点后也可用方向键调整。</div><div id="error" class="error" role="alert"></div><div class="canvas"><svg id="drawing" viewBox="0 0 1100 650" xmlns="http://www.w3.org/2000/svg" aria-label="挡墙横断面预览"></svg></div><div class="legend"><span style="--c:#35475d">结构轮廓</span><span style="--c:#9b866c">地形与填土</span><span style="--c:#1762ca">高程标注</span><span style="--c:#18846a">尺寸标注</span></div></section><div class="stats" id="stats"></div><details class="panel notes" open><summary>参数口径与简版默认规则</summary><div id="rules"></div><p>坡比均为竖向∶水平＝1∶m；墙面、墙背坡率输入水平增量 m，0 表示竖直。平台净宽从坡顶量至平台高程处的墙面。图形按真实比例绘制，尺寸单位为米。</p><p>DXF 包含墙身、基础、地形、尺寸及文字独立图层，使用模型空间实际米制坐标。当前为断面几何设计工具，未包含配筋和稳定计算。</p></details><div class="status" id="status" role="status"></div></main></div><footer>所有计算和文件生成均在本机浏览器完成 · 建议使用 Chrome 或 Edge 打开</footer>
+<script>
+'use strict';
+const defaults={river:10,frontSlope:2,platform:12,platformWidth:2,height:3,baseWidth:3.5,backSlope:2,crest:16,baseBottom:10.5,baseThickness:.5,wallTop:14,backStart:13.5,topThickness:.3,rootThickness:.5,toe:1,stoneTop:.8,faceSlope:.2,rearSlope:.2,frontExtension:.3,rearExtension:.3,crestWidth:3,riverWidth:3};
+let state={...defaults},mode='simple',type='rc',model=null;
+let dragSession=null;
+const $=id=>document.getElementById(id),fmt=n=>Number(n).toFixed(2);
+const defs={river:['河底高程','m'],frontSlope:['墙前坡比 1∶m','m值'],platform:['墙前泥面平台高程','m'],platformWidth:['墙前泥面平台净宽','m'],height:['墙高（基础顶至墙顶）','m'],baseWidth:['底板 / 基础总宽','m'],backSlope:['墙后坡比 1∶m','m值'],crest:['堤顶高程','m'],baseBottom:['基础底高程','m'],baseThickness:['底板 / 基础厚度','m'],wallTop:['墙顶高程','m'],backStart:['墙后起坡点高程','m'],topThickness:['墙顶厚度','m'],rootThickness:['墙根厚度','m'],toe:['墙趾长度','m'],stoneTop:['墙顶宽度','m'],faceSlope:['墙面坡率 1∶m','m值'],rearSlope:['墙背坡率 1∶m','m值'],frontExtension:['基础前外伸','m'],rearExtension:['基础后外伸','m'],crestWidth:['堤顶展示宽度','m'],riverWidth:['河底展示宽度','m']};
+function form(){
+ $('simpleTab').classList.toggle('active',mode==='simple');$('detailTab').classList.toggle('active',mode==='detail');
+ $('modeNote').textContent=mode==='simple'?'仅输入 8 项参数，其他尺寸采用下方默认规则，修改后实时出图。':'独立控制地形、墙体及基础尺寸，修改后实时出图。';
+ const groups=mode==='simple'?[['基本参数',['river','frontSlope','platform','platformWidth','height','baseWidth','backSlope','crest']]]:[['墙前与墙后地形',['river','frontSlope','platform','platformWidth','backStart','backSlope','crest']],['墙体与基础定位',['wallTop','baseBottom','baseThickness']], [type==='rc'?'钢混墙截面':'浆砌块石墙截面',type==='rc'?['baseWidth','topThickness','rootThickness','toe']:['stoneTop','faceSlope','rearSlope','frontExtension','rearExtension']],['图形展示范围',['crestWidth','riverWidth']]];
+ $('fields').innerHTML=groups.map(([title,keys])=>'<div class="group">'+title+'</div>'+keys.map(k=>'<div class="field"><label for="p_'+k+'">'+defs[k][0]+'</label><div class="control"><input id="p_'+k+'" data-key="'+k+'" type="number" step="0.1" value="'+state[k]+'"><span class="unit">'+defs[k][1]+'</span></div></div>').join('')).join('');
+ $('fields').querySelectorAll('input').forEach(el=>el.addEventListener('input',()=>{state[el.dataset.key]=el.value===''?NaN:Number(el.value);update()}));update();
+}
+function parameters(){let p={...state};if(mode==='simple'){
+ p.baseThickness=.5;p.baseBottom=p.platform-1.5;p.wallTop=p.baseBottom+.5+p.height;p.backStart=p.wallTop-.5;p.crestWidth=3;p.riverWidth=3;
+ p.topThickness=.3;p.rootThickness=.5;p.toe=(p.baseWidth-.5)/3;
+ p.stoneTop=.6;p.frontExtension=.25;p.rearExtension=.25;
+ p.faceSlope=p.rearSlope=(p.baseWidth-.5-.6)/(2*p.height);
+ }else p.height=p.wallTop-p.baseBottom-p.baseThickness;return p;}
+function geometry(p){
+ const errors=[];for(const [k,v] of Object.entries(p))if(!Number.isFinite(v))errors.push(defs[k][0]+'请输入有效数字');
+ if(errors.length)throw Error(errors.join('；'));
+ const positive=['platformWidth','height','baseThickness','crestWidth','riverWidth','frontSlope','backSlope'];positive.push(...(type==='rc'?['baseWidth','topThickness','rootThickness']:['stoneTop']));
+ positive.forEach(k=>{if(p[k]<=0)errors.push(defs[k][0]+'须大于 0')});
+ if(p.platform<=p.river)errors.push('平台高程须高于河底高程');
+ const z=p.baseBottom+p.baseThickness;
+ if(p.platform<z||p.platform>=p.wallTop)errors.push('平台高程须不低于基础顶且低于墙顶');
+ if(p.backStart<z||p.backStart>p.wallTop)errors.push('墙后起坡点须在基础顶与墙顶之间');
+ if(p.crest<p.backStart)errors.push('堤顶高程须不低于墙后起坡点');
+ let body,base,frontX,backX,B;
+ if(type==='rc'){
+ if(p.rootThickness<p.topThickness)errors.push('墙根厚度须不小于墙顶厚度');if(p.toe<0||p.baseWidth-p.toe-p.rootThickness<0)errors.push('墙趾或墙踵长度不足，请增大底板宽');
+ body=[[0,z],[p.rootThickness,z],[p.rootThickness,p.wallTop],[p.rootThickness-p.topThickness,p.wallTop]];B=p.baseWidth;base=[[-p.toe,p.baseBottom],[B-p.toe,p.baseBottom],[B-p.toe,z],[-p.toe,z]];
+ frontX=(p.rootThickness-p.topThickness)*(p.platform-z)/p.height;backX=p.rootThickness;
+ }else{
+ ['faceSlope','rearSlope','frontExtension','rearExtension'].forEach(k=>{if(p[k]<0)errors.push(defs[k][0]+'不能小于 0')});
+ const w=p.stoneTop+(p.faceSlope+p.rearSlope)*p.height;B=w+p.frontExtension+p.rearExtension;
+ body=[[0,z],[w,z],[p.faceSlope*p.height+p.stoneTop,p.wallTop],[p.faceSlope*p.height,p.wallTop]];base=[[-p.frontExtension,p.baseBottom],[w+p.rearExtension,p.baseBottom],[w+p.rearExtension,z],[-p.frontExtension,z]];
+ frontX=p.faceSlope*(p.platform-z);backX=w-p.rearSlope*(p.backStart-z);
+ }
+ if(errors.length)throw Error(errors.join('；'));
+ const platformLeft=frontX-p.platformWidth,riverFoot=platformLeft-(p.platform-p.river)*p.frontSlope,crestX=backX+(p.crest-p.backStart)*p.backSlope;
+ const front=[[riverFoot-p.riverWidth,p.river],[riverFoot,p.river],[platformLeft,p.platform],[frontX,p.platform]],back=[[backX,p.backStart],[crestX,p.crest],[crestX+p.crestWidth,p.crest]];
+ return {p,body,base,front,back,B,z,area:((type==='rc'?p.topThickness:p.stoneTop)+(body[1][0]-body[0][0]))*p.height/2+B*p.baseThickness};
+}
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function render(g){
+ const {p,body,base,front,back}=g;const pts=[...body,...base,...front,...back],xs=pts.map(a=>a[0]),ys=pts.map(a=>a[1]);let xmin=Math.min(...xs),xmax=Math.max(...xs),ymin=Math.min(...ys)-1.4,ymax=Math.max(...ys)+1.2;
+ let scale=Math.min(940/(xmax-xmin),430/(ymax-ymin)),ox=(1100-(xmax-xmin)*scale)/2,oy=90+(430-(ymax-ymin)*scale)/2;
+ if(dragSession){({scale,ox,oy,xmin,ymax}=dragSession.view);}
+ g.view={scale,ox,oy,xmin,ymax};
+ const xy=a=>[ox+(a[0]-xmin)*scale,oy+(ymax-a[1])*scale],str=a=>a.map(v=>xy(v).join(',')).join(' ');
+ let svg='<defs><pattern id="soil" width="15" height="15" patternUnits="userSpaceOnUse"><path d="M0 15L15 0" stroke="#d6cabb" stroke-width=".7"/></pattern><pattern id="rc" width="11" height="11" patternUnits="userSpaceOnUse"><circle cx="3" cy="3" r=".8" fill="#8396aa"/></pattern><pattern id="stone" width="32" height="20" patternUnits="userSpaceOnUse"><path d="M0 0H32V20H0ZM0 10H32M16 0V10M8 10V20M28 10V20" fill="none" stroke="#8693a1" stroke-width=".8"/></pattern></defs>';
+ const text=(a,t,color='#35475d',size=13,anchor='middle')=>{let [x,y]=xy(a);svg+='<text x="'+x+'" y="'+y+'" fill="'+color+'" font-size="'+size+'" text-anchor="'+anchor+'">'+esc(t)+'</text>'};
+ const poly=(a,fill,stroke='#35475d')=>{svg+='<polygon points="'+str(a)+'" fill="'+fill+'" stroke="'+stroke+'" stroke-width="1.7"/>'};
+ const line=(a,color='#9b866c',dash=false)=>{svg+='<polyline points="'+str(a)+'" fill="none" stroke="'+color+'" stroke-width="1.8"'+(dash?' stroke-dasharray="5 4"':'')+'/>'};
+ poly([...front,[front.at(-1)[0],ymin],[front[0][0],ymin]],'url(#soil)','none');poly([...back,[back.at(-1)[0],ymin],[back[0][0],ymin]],'url(#soil)','none');
+ poly(base,'#f3f6fa');poly(base,type==='rc'?'url(#rc)':'url(#stone)');poly(body,'#f3f6fa');poly(body,type==='rc'?'url(#rc)':'url(#stone)');line(front);line(back);
+ const elev=(a,label,dx=0,dy=.3)=>text([a[0]+dx,a[1]+dy],'▽ '+fmt(a[1])+(label?' '+label:''),'#1762ca',13);
+ elev(front[1],'河底',-.6);elev(front[2],'平台');elev(body[2],'墙顶',-.2,.55);elev(back[0],'起坡点',1.05,.25);elev(back[1],'堤顶');elev(base[0],'基础底',-1.15,-.25);
+ text([(front[1][0]+front[2][0])/2,(p.river+p.platform)/2+.45],'1∶'+p.frontSlope,'#9b744a');text([(back[0][0]+back[1][0])/2,(p.backStart+p.crest)/2+.4],'1∶'+p.backSlope,'#9b744a');
+ function dim(a,b,label){line([a,b],'#18846a');const tick=.10;[a,b].forEach(v=>line([[v[0],v[1]-tick],[v[0],v[1]+tick]],'#18846a'));text([(a[0]+b[0])/2,a[1]+.15],label,'#18846a');}
+ dim([front[2][0],p.platform+.55],[front[3][0],p.platform+.55],fmt(p.platformWidth)+' 平台净宽');dim([base[0][0],p.baseBottom-.7],[base[1][0],p.baseBottom-.7],fmt(g.B)+' 基础总宽');
+ svg+='<text x="40" y="40" fill="#20304b" font-size="20" font-weight="600">'+(type==='rc'?'钢筋混凝土挡墙 · 悬臂式':'浆砌块石挡墙 · 重力式')+'</text><text x="40" y="620" fill="#8b99aa" font-size="12">断面几何预览 · 单位 m · 按实际比例绘制</text>';
+
+ const hX=Math.min(base[0][0],front[3][0])-.65, h0=xy([hX,g.z]),h1=xy([hX,p.wallTop]);
+ const left=xy(base[0]),right=xy(base[1]),topA=xy(body[2]),topB=xy(body[3]);
+ function dragNode(action,point,label,cursor){return '<g class="drag-target" data-drag="'+action+'" tabindex="0" role="slider" aria-label="'+label+'" aria-valuenow="'+fmt(action==='height'?p.height:g.B)+'" style="cursor:'+cursor+'"><title>'+label+'；拖动或使用方向键</title><circle cx="'+point[0]+'" cy="'+point[1]+'" r="17" fill="transparent"/><circle class="drag-handle" cx="'+point[0]+'" cy="'+point[1]+'" r="6"/><path d="'+(action==='height'?'M'+point[0]+','+(point[1]-12)+'v-6m-3 3 3-3 3 3M'+point[0]+','+(point[1]+12)+'v6m-3-3 3 3 3-3':'M'+(point[0]-12)+','+point[1]+'h-6m3-3-3 3 3 3M'+(point[0]+12)+','+point[1]+'h6m-3-3 3 3-3 3')+'" stroke="#1762ca" fill="none" stroke-width="1.2"/></g>';}
+ function dragLine(action,a,b,label){return '<g class="drag-target" data-drag="'+action+'" tabindex="0" role="slider" aria-label="'+label+'" aria-valuenow="'+fmt(action==='height'?p.height:g.B)+'" style="cursor:'+(action==='height'?'ns-resize':'ew-resize')+'"><title>'+label+'</title><path class="drag-hit" d="M'+a.join(',')+'L'+b.join(',')+'"/><path class="drag-dim" d="M'+a.join(',')+'L'+b.join(',')+'"/></g>';}
+ svg+=dragLine('height',h0,h1,'上下拖动：墙高 '+fmt(p.height)+' m');
+ [h0,h1].forEach(a=>{svg+='<path class="drag-dim" d="M'+(a[0]-6)+','+a[1]+'h12"/>'});
+ svg+='<text class="drag-label" x="'+(h0[0]-10)+'" y="'+((h0[1]+h1[1])/2)+'" text-anchor="end">墙高 '+fmt(p.height)+'</text>';
+ svg+=dragNode('height',h1,'墙高 '+fmt(p.height)+' m','ns-resize')+dragNode('height',topA,'墙顶高程 '+fmt(p.wallTop)+' m','ns-resize')+dragNode('height',topB,'墙顶高程 '+fmt(p.wallTop)+' m','ns-resize');
+ const widthY=Math.max(left[1],right[1])+46,dl=[left[0],widthY],dr=[right[0],widthY];
+ svg+=dragLine('right',dl,dr,'左右拖动：基础总宽 '+fmt(g.B)+' m')+dragNode('left',left,'基础左端，总宽 '+fmt(g.B)+' m','ew-resize')+dragNode('right',right,'基础右端，总宽 '+fmt(g.B)+' m','ew-resize');
+ $('drawing').innerHTML=svg;
+
+}
+function update(){
+ $('status').textContent='';$('subtitle').textContent=(mode==='simple'?'简版 · 8 项参数':'详版 · 独立控制尺寸')+' / 河道在左，堤顶在右';
+ $('rules').innerHTML=mode==='simple'?'<p>基础厚度 0.50 m；基础顶位于平台下 1.00 m；墙顶＝基础顶＋墙高；墙后起坡点位于墙顶下 0.50 m。河底与堤顶各展示 3.00 m。</p>'+(type==='rc'?'<p>钢混：墙顶厚 0.30 m，墙根厚 0.50 m；墙趾＝（底板宽−0.50）÷3，剩余为墙踵。</p>':'<p>浆砌石：墙顶宽 0.60 m；基础前后各外伸 0.25 m；根据基础总宽和墙高反算墙面、墙背对称坡率。切换详版后可分别调整。</p>'):'<p>详版采用当前输入值。墙高根据墙顶、基础底高程与基础厚度计算；浆砌石墙底宽和基础总宽根据坡率及外伸尺寸计算。</p>';
+ try{model=geometry(parameters());render(model);$('error').style.display='none';$('valid').textContent='参数有效 · 已更新';$('valid').style.background='#e9f7f2';$('export').disabled=false;const g=model,p=g.p;$('stats').innerHTML=[['墙高',fmt(p.height)+' m'],['墙顶高程',fmt(p.wallTop)+' m'],['基础总宽',fmt(g.B)+' m'],['结构截面积',fmt(g.area)+' m²']].map(([a,b])=>'<div class="stat"><small>'+a+'</small><b>'+b+'</b></div>').join('');}
+ catch(e){model=null;$('error').textContent=e.message;$('error').style.display='block';$('valid').textContent='请检查参数';$('valid').style.background='#fff0ef';$('export').disabled=true;$('drawing').innerHTML='<text x="550" y="320" text-anchor="middle" fill="#a1aebe" font-size="18">修正参数后显示断面</text>';$('stats').innerHTML='';}
+}
+function switchMode(next){if(next===mode)return;if(mode==='simple'&&next==='detail'){if(!model){$('status').textContent='请先修正简版参数，再切换详版。';return;}state={...model.p};}if(mode==='detail'&&next==='simple'){if(!model){$('status').textContent='请先修正详版参数，再切换简版。';return;}state={...state,height:model.p.height,baseWidth:model.B};}mode=next;form();}
+function dxf(g){
+ let out=[];const pair=(c,v)=>out.push(String(c),String(v));const unicode=s=>Array.from(s).map(c=>c.charCodeAt(0)>127?'\\U+'+c.charCodeAt(0).toString(16).toUpperCase().padStart(4,'0'):c).join('');
+ pair(0,'SECTION');pair(2,'HEADER');pair(9,'$ACADVER');pair(1,'AC1021');pair(9,'$INSUNITS');pair(70,6);pair(0,'ENDSEC');
+ pair(0,'SECTION');pair(2,'TABLES');pair(0,'TABLE');pair(2,'LAYER');pair(70,5);[['WALL',7],['BASE',7],['TERRAIN',8],['DIM',3],['LABEL',5]].forEach(([n,c])=>{pair(0,'LAYER');pair(2,n);pair(70,0);pair(62,c);pair(6,'CONTINUOUS')});pair(0,'ENDTAB');pair(0,'TABLE');pair(2,'STYLE');pair(70,1);pair(0,'STYLE');pair(2,'STANDARD');pair(70,0);pair(40,0);pair(41,1);pair(50,0);pair(71,0);pair(42,.15);pair(3,'simsun.ttf');pair(4,'');pair(0,'ENDTAB');pair(0,'ENDSEC');pair(0,'SECTION');pair(2,'ENTITIES');
+ const line=(a,b,layer)=>{pair(0,'LINE');pair(8,layer);pair(10,a[0]);pair(20,a[1]);pair(30,0);pair(11,b[0]);pair(21,b[1]);pair(31,0)};
+ const path=(pts,layer,closed=false)=>{for(let i=1;i<pts.length;i++)line(pts[i-1],pts[i],layer);if(closed)line(pts.at(-1),pts[0],layer)};
+ const text=(a,t,layer='LABEL',h=.18)=>{pair(0,'TEXT');pair(8,layer);pair(10,a[0]);pair(20,a[1]);pair(30,0);pair(40,h);pair(1,unicode(t));pair(7,'STANDARD');pair(50,0)};
+ path(g.body,'WALL',true);path(g.base,'BASE',true);path(g.front,'TERRAIN');path(g.back,'TERRAIN');
+ const p=g.p;[[g.front[1],'河底'],[g.front[2],'平台'],[g.body[2],'墙顶'],[g.back[0],'墙后起坡点'],[g.back[1],'堤顶'],[g.base[0],'基础底']].forEach(([a,t],i)=>text([a[0],a[1]+(i===5?-.35:.25)],t+' '+fmt(a[1])));
+ text([(g.front[1][0]+g.front[2][0])/2,(p.river+p.platform)/2+.25],'1:'+p.frontSlope);text([(g.back[0][0]+g.back[1][0])/2,(p.backStart+p.crest)/2+.25],'1:'+p.backSlope);
+ function dim(a,b,y,label){const aa=[a[0],y],bb=[b[0],y];line(a,[a[0],y+.12],'DIM');line(b,[b[0],y+.12],'DIM');line(aa,bb,'DIM');[aa,bb].forEach(v=>line([v[0]-.08,v[1]-.08],[v[0]+.08,v[1]+.08],'DIM'));text([(a[0]+b[0])/2,y+.12],label,'DIM');}
+ dim(g.front[2],g.front[3],p.platform+.6,'平台净宽 '+fmt(p.platformWidth));dim(g.base[0],g.base[1],p.baseBottom-.7,'基础总宽 '+fmt(g.B));
+ text([g.front[0][0],Math.max(p.wallTop,p.crest)+1],type==='rc'?'钢筋混凝土挡墙横断面':'浆砌块石挡墙横断面','LABEL',.3);text([g.front[0][0],p.baseBottom-1.3],'单位：m；墙高 '+fmt(p.height)+'；基础厚 '+fmt(p.baseThickness));
+ pair(0,'ENDSEC');pair(0,'EOF');return out.join('\r\n')+'\r\n';
+}
+function download(content,name,mime){const url=URL.createObjectURL(new Blob([content],{type:mime}));const a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),10000);}
+ $('simpleTab').onclick=()=>switchMode('simple');$('detailTab').onclick=()=>switchMode('detail');$('wallType').onchange=e=>{type=e.target.value;form()};$('reset').onclick=()=>{state={...defaults};form()};$('export').onclick=()=>{if(!model)return;download(dxf(model),(type==='rc'?'钢混挡墙':'浆砌块石挡墙')+'_'+(mode==='simple'?'简版':'详版')+'.dxf','application/dxf');$('status').textContent='DXF 已生成，请在浏览器下载列表中查看。CAD 模型空间单位：米。';};
+
+function pointerPosition(e){const svg=$('drawing'),matrix=svg.getScreenCTM();if(!matrix)return null;return new DOMPoint(e.clientX,e.clientY).matrixTransform(matrix.inverse());}
+function dragCandidate(snapshot,p,action,delta,currentMode,currentType){
+ const next={...snapshot};
+ if(action==='height'){
+  if(currentMode==='simple')next.height=p.height+delta;
+  else next.wallTop=p.wallTop+delta;
+ }else if(currentMode==='simple'){
+  next.baseWidth=p.baseWidth+(action==='left'?-delta:delta);
+ }else if(currentType==='rc'){
+  next.baseWidth=p.baseWidth+(action==='left'?-delta:delta);
+  if(action==='left')next.toe=p.toe-delta;
+ }else{
+  const key=action==='left'?'frontExtension':'rearExtension';next[key]=p[key]+(action==='left'?-delta:delta);
+ }
+ return next;
+}
+function applyDrag(session,delta){const previous=state;state=dragCandidate(session.state,session.p,session.action,delta,mode,type);try{geometry(parameters());}catch{state=previous;$('status').textContent='已到达有效尺寸边界；请调整墙体或地形尺寸。';return false;}update();$('fields').querySelectorAll('[data-key]').forEach(el=>{const v=state[el.dataset.key];if(Number.isFinite(v))el.value=Number(v.toFixed(4));});$('status').textContent=(session.action==='height'?'墙高 '+fmt(model.p.height)+' m，墙顶高程 '+fmt(model.p.wallTop)+' m':'基础总宽 '+fmt(model.B)+' m')+(mode==='simple'?' · 简版按默认规则联动':'');return true;}
+const dragSvg=$('drawing');
+dragSvg.addEventListener('pointerdown',e=>{const target=e.target.closest('[data-drag]');if(!target||!model||e.button>0||dragSession)return;const point=pointerPosition(e);if(!point)return;e.preventDefault();dragSession={action:target.dataset.drag,start:point,state:{...state},p:{...model.p},view:{...model.view},pointer:e.pointerId};dragSvg.setPointerCapture(e.pointerId);dragSvg.classList.add('drag-active');});
+dragSvg.addEventListener('pointermove',e=>{if(!dragSession||e.pointerId!==dragSession.pointer)return;const point=pointerPosition(e);if(!point)return;e.preventDefault();const s=dragSession,step=e.shiftKey?.01:.05,raw=s.action==='height'?(s.start.y-point.y)/s.view.scale:(point.x-s.start.x)/s.view.scale,delta=Number((Math.round(raw/step)*step).toFixed(4));applyDrag(s,delta);});
+function finishDrag(e){if(!dragSession||e.pointerId!==dragSession.pointer)return;const pointer=dragSession.pointer;dragSession=null;dragSvg.classList.remove('drag-active');if(dragSvg.hasPointerCapture(pointer))dragSvg.releasePointerCapture(pointer);if(model)render(model);}
+dragSvg.addEventListener('pointerup',finishDrag);dragSvg.addEventListener('pointercancel',finishDrag);dragSvg.addEventListener('lostpointercapture',finishDrag);
+dragSvg.addEventListener('keydown',e=>{const target=e.target.closest('[data-drag]');if(!target||!model||!['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key))return;const action=target.dataset.drag;if(action==='height'&&!['ArrowUp','ArrowDown'].includes(e.key))return;if(action!=='height'&&!['ArrowLeft','ArrowRight'].includes(e.key))return;e.preventDefault();const step=e.shiftKey?.01:.05,sign=['ArrowUp','ArrowRight'].includes(e.key)?1:-1;applyDrag({action,state:{...state},p:{...model.p}},step*sign);const replacement=dragSvg.querySelector('[data-drag="'+action+'"]');if(replacement)replacement.focus();});
+ form();
+</script>
+<script>
+// Optional construction dimensions, stored separately from the main section geometry.
+const dimensionDefs=[['sectionLength','墙段长度','m'],['jointWidth','伸缩缝宽度','mm'],['jointSpace','伸缩缝间距','m'],['keyWidth','防滑凸榫宽度','m'],['keyDepth','防滑凸榫高度','m'],['keyOffset','凸榫距基础前缘','m'],['cushionThick','垫层厚度','m'],['cushionExtend','垫层外伸宽度','m'],['holeDiameter','泄水孔直径','mm'],['holeHSpace','泄水孔水平间距','m'],['holeVSpace','泄水孔竖向间距','m'],['holeBottom','最低排水孔高程','m'],['filterThick','反滤层厚度','m']];
+let construction={};
+function dimensionExtras(){if(mode!=='detail')return;const wrap=document.createElement('div');wrap.id='extraFields';wrap.innerHTML='<div class="paramtools" style="margin-top:18px"><button id="saveParams">保存尺寸参数</button><button id="loadParams">导入尺寸参数</button></div><input id="paramFile" type="file" accept=".json,application/json" hidden><details class="advanced"><summary>其他构造尺寸（选填）</summary><p class="notice">以下尺寸仅随参数文件保存，当前断面预览及 DXF 尚未绘制对应构造。</p>'+dimensionDefs.map(([key,label,unit])=>'<div class="field"><label for="dim_'+key+'">'+label+'</label><div class="control"><input type="number" step="any" '+(key==='holeBottom'?'':'min="0"')+' id="dim_'+key+'" data-dimension="'+key+'" value="'+(construction[key]??'')+'" placeholder="未填"><span class="unit">'+unit+'</span></div></div>').join('')+'</details>';$('fields').append(wrap);
+wrap.querySelectorAll('[data-dimension]').forEach(el=>el.addEventListener('input',()=>{construction[el.dataset.dimension]=el.value===''?null:Number(el.value)}));
+$('saveParams').onclick=()=>{if(!model){$('status').textContent='请先修正断面尺寸。';return;}if(dimensionDefs.some(([k])=>construction[k]!=null&&(!Number.isFinite(construction[k])||(k!=='holeBottom'&&construction[k]<0)))){$('status').textContent='请检查构造尺寸：长度不能为负数。';return;}download(JSON.stringify({format:'wall-dimensions',version:1,type,mode,geometry:state,construction},null,2),'挡墙尺寸参数.json','application/json');$('status').textContent='尺寸参数已保存。'};
+$('loadParams').onclick=()=>$('paramFile').click();$('paramFile').onchange=async e=>{const file=e.target.files[0];if(!file)return;try{if(file.size>1000000)throw Error('文件过大');const v=JSON.parse(await file.text());if(v.format!=='wall-dimensions'||v.version!==1||!['rc','stone'].includes(v.type))throw Error('请选择尺寸版参数文件');const restored={};for(const key of Object.keys(defaults)){if(typeof v.geometry?.[key]!=='number'||!Number.isFinite(v.geometry[key]))throw Error('断面尺寸缺失或无效');restored[key]=v.geometry[key];}const restoredConstruction={};for(const [key] of dimensionDefs){const n=v.construction?.[key];if(n!=null&&(typeof n!=='number'||!Number.isFinite(n)||(key!=='holeBottom'&&n<0)))throw Error('构造尺寸无效');restoredConstruction[key]=n??null;}state=restored;construction=restoredConstruction;type=v.type;mode=v.mode==='simple'?'simple':'detail';$('wallType').value=type;form();$('status').textContent='尺寸参数已导入。';}catch(err){$('status').textContent='导入失败：'+err.message;}};
+}
+const originalForm=form;form=function(){originalForm();dimensionExtras();};
+const originalReset=$('reset').onclick;$('reset').onclick=()=>{construction={};originalReset();};
+form();
+</script>
+</body></html>
